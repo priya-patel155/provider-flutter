@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:providerpractices/utils/employeeprovider.dart';
 import 'package:providerpractices/views/counter_Provider_app.dart';
+import 'package:providerpractices/views/dark_theme.dart';
+import 'package:providerpractices/views/favourite_screen.dart';
 import 'package:providerpractices/views/shopping_page.dart';
 
 import 'Provider/count_provider.dart';
+import 'Provider/favourite_provider.dart';
+import 'Provider/theme_changer.dart';
 import 'dropdownlist.dart';
 import 'employelist.dart';
 
@@ -23,13 +27,27 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (_) => EmployeeProvider(),
           ),
-        ],
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
+          ChangeNotifierProvider(
+            create: (_) => favourite(),
           ),
-          home: EmployeeList(),
+          ChangeNotifierProvider(
+            create: (_) => ThemeChanger(),
+          ),
+        ],
+        child: Builder(
+          builder: (BuildContext context) {
+            final themechanger = Provider.of<ThemeChanger>(context);
+            return MaterialApp(
+              title: 'Flutter Demo',
+              themeMode: themechanger.themeMode,
+              theme: ThemeData(
+                brightness: Brightness.light,
+                primarySwatch: Colors.blue,
+              ),
+              darkTheme: ThemeData(brightness: Brightness.dark),
+              home: EmployeeList(),
+            );
+          },
         ));
   }
 }

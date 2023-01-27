@@ -20,7 +20,7 @@ class EmployeeProvider extends ChangeNotifier {
           await Dio().get('https://jsonplaceholder.typicode.com/posts');
       print(response.data);
       if (response.statusCode == 200) {
-        var list = response.data as List;
+        List list = response.data;
         employeedatalist = list.map((element) {
           return PracticeModel.fromJson(element);
         }).toList();
