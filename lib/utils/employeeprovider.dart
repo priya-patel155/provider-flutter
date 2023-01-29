@@ -2,10 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../dataModel.dart';
+import '../models/mutual_fund_details_model.dart';
+import '../models/mutual_fund_model.dart';
 import 'DataUtils.dart';
 
 class EmployeeProvider extends ChangeNotifier {
   List<PracticeModel>? employeedatalist = [];
+  List<MutualFundModel>? mutualFundModelList = <MutualFundModel>[];
+  MutualFundDetailsModel? mutualFundDetailsModel;
   bool isLoading = false;
 
   void setLoading(bool value) {
@@ -25,6 +29,43 @@ class EmployeeProvider extends ChangeNotifier {
           return PracticeModel.fromJson(element);
         }).toList();
 
+        notifyListeners();
+        setLoading(false);
+      }
+    } catch (e) {
+      setLoading(false);
+      print(e);
+    }
+  }
+
+  Future<void> MutalFundListApi({BuildContext? context}) async {
+    setLoading(true);
+    try {
+      final response = await Dio().get('https://api.mfapi.in/mf');
+      print(response.data);
+      if (response.statusCode == 200) {
+        List list = response.data;
+        mutualFundModelList = list.map((element) {
+          return MutualFundModel.fromJson(element);
+        }).toList();
+
+        notifyListeners();
+        setLoading(false);
+      }
+    } catch (e) {
+      setLoading(false);
+      print(e);
+    }
+  }
+
+  Future<void> MutalFundLDetailsApi(
+      {BuildContext? context, int? schemaCode}) async {
+    setLoading(true);
+    try {
+      final response = await Dio().get('https://api.mfapi.in/mf/$schemaCode');
+      print(response.data);
+      if (response.statusCode == 200) {
+        mutualFundDetailsModel = MutualFundDetailsModel.fromJson(response.data);
         notifyListeners();
         setLoading(false);
       }

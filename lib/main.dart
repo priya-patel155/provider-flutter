@@ -4,6 +4,7 @@ import 'package:providerpractices/utils/employeeprovider.dart';
 import 'package:providerpractices/views/counter_Provider_app.dart';
 import 'package:providerpractices/views/dark_theme.dart';
 import 'package:providerpractices/views/favourite_screen.dart';
+import 'package:providerpractices/views/mutual_fund_list.dart';
 import 'package:providerpractices/views/shopping_page.dart';
 
 import 'Provider/count_provider.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               darkTheme: ThemeData(brightness: Brightness.dark),
-              home: EmployeeList(),
+              home: MutualFundList(),
             );
           },
         ));
